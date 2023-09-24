@@ -7,10 +7,11 @@ builder.Services.AddHttpClient(); // Add HttpClient here
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors();
-app.MapGet("/", async (HttpContext context, IHttpClientFactory httpClientFactory) =>
+app.MapGet("/", async ([FromQuery] string c, HttpContext context, IHttpClientFactory httpClientFactory) =>
 {
+    string coords= c;
     var httpClient = httpClientFactory.CreateClient();
-    var apiUrl = "https://cbsapi.tkgm.gov.tr/megsiswebapi.v3/api/parsel/41.143677/29.145663"; // Replace with your API URL
+    var apiUrl = "https://cbsapi.tkgm.gov.tr/megsiswebapi.v3/api/parsel/"+coords.Replace(",","/").Replace(" ",""); // Replace with your API URL 41.143677/29.145663
 
     var response = await httpClient.GetAsync(apiUrl);
 
